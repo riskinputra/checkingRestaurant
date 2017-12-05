@@ -14,7 +14,6 @@
 
       #map {
         height: 300px;
-        width: 100%;
       }
     </style>
   </head>
@@ -29,7 +28,6 @@
           zoom: 16,
           center: {lat: -6.260700, lng: 106.781648},
           disableDefaultUI: true,
-          fullscreenControl: true,
           styles: [
             {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
             {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
@@ -118,10 +116,13 @@
 
         // Marker
         let markers = []
-        <% rows.forEach(data => { %>
+        <% rows.forEach(row => { %>
             markers.push({
-              coords: {lat: <%= data.lat %>, lng: <%= data.lng %>},
-              content: '<b><%= data.name %></b><br/><%= data.location %>'
+              coords: {
+                lat: <%= row.latitude %>,
+                lng: <%= row.longitude %>
+              },
+              content: '<b><%= row.name %></b><br/><%= row.address %>'
             })
         <% }) %>
 
