@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "yofri",
+    "password": "root",
+    "database": "trisquare",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": "Op"
+  }
+}
