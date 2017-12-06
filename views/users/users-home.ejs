@@ -21,33 +21,21 @@
   <body>
     <div id="map"></div>
 
+    <form class="" method="post">
+      <input type="text" name="territory" id="territory">
+      <input type="submit" name="" value="Submit">
+    </form>
+
+    <% if (lists.length !== 0) { %>
+      <%= lists %>
+    <% } %>
+
     <script>
-      let lat = ''
-      let lng = ''
-
-      var options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-      };
-
-      function success(pos) {
-        const coords = pos.coords;
-        lat = coords.latitude
-        lng = coords.longitude
-      };
-
-      function error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
-      };
-
-      navigator.geolocation.getCurrentPosition(success, error, options);
-
       function initMap() {
         // Option
         let options = {
           zoom: 15,
-          center: {lat: lat, lng: lng},
+          center: {lat: -6.175110, lng: 106.865039},
           disableDefaultUI: true
         }
 
@@ -56,6 +44,7 @@
         const image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
         // Marker
+
         let markers = []
         <% rows.forEach(row => { %>
             markers.push({
@@ -86,7 +75,54 @@
             infoWindow.open(map, marker)
           })
         }
+
+        // current Location
+        var geocoder = new google.maps.Geocoder;
+        let currentInfoWindow = new google.maps.InfoWindow;
+        // let redirectingUser = '';
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            geocoder.geocode({'location':pos}, function(results) {
+              results.forEach(dataResult => {
+                dataResult.address_components.forEach(dataRe => {
+                  if (dataRe.types[0] == 'administrative_area_level_3' && <%= bool %>) {
+                    window.location.replace(`http://localhost:3000/users?territory=${dataRe.long_name}`)
+                  }
+                })
+              })
+            })
+
+            currentInfoWindow.setPosition(pos);
+            currentInfoWindow.setContent('Your Location Here ..!');
+            currentInfoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, currentInfoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, currentInfoWindow, map.getCenter());
+        }
       }
+
+      function handleLocationError(browserHasGeolocation, currentInfoWindow, pos) {
+        currentInfoWindow.setPosition(pos);
+        currentInfoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        currentInfoWindow.open(map);
+      }
+
+      // if (redirectingUser !== '') {
+      //   window.location.replace(`http://localhost:3000/users?territory=${redirectingUser}`)
+      // }
     </script>
 
     <script async defer

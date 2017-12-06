@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     territory: DataTypes.STRING,
     latitude: DataTypes.STRING,
-    longitude: DataTypes.STRING
+    longitude: DataTypes.STRING,
   });
   return Restaurant;
 };

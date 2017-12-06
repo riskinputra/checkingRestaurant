@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>users</h1>
+    <form class="" method="post">
+      <input type="hidden" name="id" value="<%= dataUser.id%>">
+      <input type="text" name="name" value="<%= dataUser.name%>" placeholder="Input Your Name">
+      <input type="text" name="email" value="<%= dataUser.email%>" placeholder="Input Your Email">
+      <input type="text" name="password" value="<%= dataUser.password%>" placeholder="Input Your Password">
+      <select name="role" >
+        <option selected disabled>Click to Choose--</option>
+        <%if (dataUser.role == 'user'){%>
+          <option value="user" selected>User</option>
+        <%}else if(dataUser.role == 'owner'){%>
+          <option value="owner" selected>Owner</option>
+        <%}else{%>
+          <option value="user">User</option>
+          <option value="owner">Owner</option>
+        <%}%>
+      </select>
+      <input type="submit" name="" value="Submit">
+    </form>
+  </body>
+</html>
