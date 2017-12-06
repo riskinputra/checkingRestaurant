@@ -144,6 +144,37 @@
             infoWindow.open(map, marker)
           })
         }
+
+        // current Location
+
+        let currentInfoWindow = new google.maps.InfoWindow;
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            currentInfoWindow.setPosition(pos);
+            currentInfoWindow.setContent('Your Location Here ..!');
+            currentInfoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, currentInfoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, currentInfoWindow, map.getCenter());
+        }
+      }
+      function handleLocationError(browserHasGeolocation, currentInfoWindow, pos) {
+        currentInfoWindow.setPosition(pos);
+        currentInfoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        currentInfoWindow.open(map);
       }
     </script>
 
