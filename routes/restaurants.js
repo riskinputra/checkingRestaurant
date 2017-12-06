@@ -73,3 +73,13 @@ module.exports = router
       console.error(err)
     }
   })
+  .get('/detail/:id', async (req, res) => {
+    try {
+      const row = await Restaurant.findById(req.params.id, {
+        attributes: ['name', 'address', 'territory']
+      })
+      res.send(row)
+    } catch (err) {
+      console.error(err)
+    }
+  })

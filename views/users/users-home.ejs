@@ -6,29 +6,80 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>My Google Map</title>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css" rel="stylesheet">
+
     <style>
-      body {
-        margin: 0;
-        padding: 0;
+      #map {
+        height: 100%;
       }
 
-      #map {
-        height: 300px;
-      }
+      .mdl-card {
+        width: 320px;
+        height: 320px;
+        margin: 16px auto; }
+      .mdl-grid--no-spacing .mdl-card {
+        margin-top: 0; }
+      .mdl-card.map {
+        width: 100% }
+      .mdl-card > .mdl-card__title {
+        color: #fff;
+        background-color: #46B6AC; }
     </style>
   </head>
 
   <body>
-    <div id="map"></div>
-
-    <form class="" method="post">
-      <input type="text" name="territory" id="territory">
-      <input type="submit" name="" value="Submit">
-    </form>
-
-    <% if (lists.length !== 0) { %>
-      <%= lists %>
-    <% } %>
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
+    mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Your Restaurants</span>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Title</span>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="">
+            <i class="material-icons">history</i>
+            &nbsp;&nbsp;HISTORY
+          </a>
+          <a class="mdl-navigation__link" href="">Link</a>
+          <a class="mdl-navigation__link" href="">Link</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <div class="mdl-grid mdl-grid--no-spacing">
+            <div class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-desktop">
+              <div class="mdl-card mdl-shadow--2dp map">
+                <div id="map"></div>
+              </div>
+            </div>
+          </div>
+          <div class="mdl-grid">
+            <% if (lists !== undefined) { %>
+              <% lists.forEach(list => { %>
+                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col-phone mdl-cell--4-col-desktop">
+                  <div class="mdl-card__title">
+                    <h4><%= list.name %></h4>
+                  </div>
+                  <div class="mdl-card__supporting-text mdl-card--expand">
+                    <p><%= list.address %></p>
+                  </div>
+                  <div class="mdl-card__actions mdl-card--border">
+                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/restaurants/detail/<%= list.id %>">DETAIL</a>
+                  </div>
+                </div>
+              <% }) %>
+            <% } %>
+          </div>
+        </div>
+      </main>
+    </div>
 
     <script>
       function initMap() {
@@ -41,10 +92,9 @@
 
         // new map
         const map = new google.maps.Map(document.getElementById('map'), options)
-        const image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+        const image = 'https://i.imgur.com/kPhiD5j.png';
 
         // Marker
-
         let markers = []
         <% rows.forEach(row => { %>
             markers.push({
@@ -79,7 +129,6 @@
         // current Location
         var geocoder = new google.maps.Geocoder;
         let currentInfoWindow = new google.maps.InfoWindow;
-        // let redirectingUser = '';
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -119,14 +168,10 @@
                               'Error: Your browser doesn\'t support geolocation.');
         currentInfoWindow.open(map);
       }
-
-      // if (redirectingUser !== '') {
-      //   window.location.replace(`http://localhost:3000/users?territory=${redirectingUser}`)
-      // }
     </script>
 
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCz4uuvcIers4wkNU6ZAkJS9m6ln0IRH8&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCz4uuvcIers4wkNU6ZAkJS9m6ln0IRH8&callback=initMap">
     </script>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   </body>
 </html>
