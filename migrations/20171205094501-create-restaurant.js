@@ -14,6 +14,9 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
+      territory: {
+        type: Sequelize.STRING
+      },
       latitude: {
         type: Sequelize.STRING
       },
