@@ -4,16 +4,27 @@ const User = require('../models').User
 module.exports = router
   .get('/', async (req, res) => {
     try {
+      let bool = true
+      const lists = []
+
+      if (req.query.territory) {
+        bool = false
+        lists.push(Restaurant.findAll({
+          where: {
+            territory: req.query.territory
+          }
+        }))
+      }
+
       const rows = await Restaurant.findAll({
-        attributes: ['name', 'address', 'latitude', 'longitude', 'teritory']
+        attributes: ['name', 'address', 'territory', 'latitude', 'longitude']
       })
-      res.render('users/users-home', {rows})
+
+      res.render('users/users-home', {rows, lists: JSON.stringify(lists, null, 2), bool})
     } catch (err) {
       console.error(err)
     }
   })
-
-  
 
   .get('/register', (req, res)=>{
     res.render('users/users-register')
