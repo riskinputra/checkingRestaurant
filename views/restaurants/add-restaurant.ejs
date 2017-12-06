@@ -43,16 +43,22 @@
         position: absolute;
       }
 
-      .add-restaurant {
+      .input-restaurant {
         position: relative;
         top: 320px;
+      }
+
+      .add-restaurant {
+        position: relative;
+        top: 330px;
       }
     </style>
   </head>
 
   <body>
     <form method="post">
-      <input id="pac-input" class="controls" type="text" placeholder="Search Location" name="location">
+      <input id="pac-input" class="controls" type="text" placeholder="Search Location">
+      <input type="text" name="name" class="input-restaurant" placeholder="Restaurant Name">
       <input type="hidden" name="latlng" id="latlng">
       <input type="hidden" name="address" id="address">
       <button class="add-restaurant">ADD RESTAURANT</button>
@@ -65,87 +71,7 @@
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: -6.260700, lng: 106.781648},
           zoom: 16,
-          disableDefaultUI: true,
-          styles: [
-            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
-            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
-            {
-              featureType: 'administrative.locality',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#d59563'}]
-            },
-            {
-              featureType: 'poi',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#d59563'}]
-            },
-            {
-              featureType: 'poi.park',
-              elementType: 'geometry',
-              stylers: [{color: '#263c3f'}]
-            },
-            {
-              featureType: 'poi.park',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#6b9a76'}]
-            },
-            {
-              featureType: 'road',
-              elementType: 'geometry',
-              stylers: [{color: '#38414e'}]
-            },
-            {
-              featureType: 'road',
-              elementType: 'geometry.stroke',
-              stylers: [{color: '#212a37'}]
-            },
-            {
-              featureType: 'road',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#9ca5b3'}]
-            },
-            {
-              featureType: 'road.highway',
-              elementType: 'geometry',
-              stylers: [{color: '#746855'}]
-            },
-            {
-              featureType: 'road.highway',
-              elementType: 'geometry.stroke',
-              stylers: [{color: '#1f2835'}]
-            },
-            {
-              featureType: 'road.highway',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#f3d19c'}]
-            },
-            {
-              featureType: 'transit',
-              elementType: 'geometry',
-              stylers: [{color: '#2f3948'}]
-            },
-            {
-              featureType: 'transit.station',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#d59563'}]
-            },
-            {
-              featureType: 'water',
-              elementType: 'geometry',
-              stylers: [{color: '#17263c'}]
-            },
-            {
-              featureType: 'water',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#515c6d'}]
-            },
-            {
-              featureType: 'water',
-              elementType: 'labels.text.stroke',
-              stylers: [{color: '#17263c'}]
-            }
-          ]
+          disableDefaultUI: true
         });
 
         // Create the search box and link it to the UI element.
@@ -154,9 +80,9 @@
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
         // Bias the SearchBox results towards current map's viewport.
-        /* map.addListener('bounds_changed', function() {
+        map.addListener('bounds_changed', function() {
           searchBox.setBounds(map.getBounds());
-        }); */
+        });
 
         var markers = [];
         // Listen for the event fired when the user selects a prediction and retrieve
@@ -213,7 +139,7 @@
       }
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCz4uuvcIers4wkNU6ZAkJS9m6ln0IRH8&libraries=places&callback=initAutocomplete"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiugJ3SlFq_kckpVflKcSqm_hlfxeYbT8&libraries=places&callback=initAutocomplete"
          async defer></script>
   </body>
 </html>

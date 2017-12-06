@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>All Restaurant</title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% rows.forEach((row, index) => { %>
+          <tr>
+            <td><%= ++index %></td>
+            <td><%= row.name %></td>
+            <td><%= row.address %></td>
+            <td><%= row.latitude %></td>
+            <td><%= row.longitude %></td>
+            <td>
+              <a href="/restaurants/add">Add</a>
+              <a href="/restaurants/edit/<%= row.id %>">Edit</a>
+              <a href="/restaurants/delete/<%= row.id %>">Delete</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>
