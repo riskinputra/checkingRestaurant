@@ -18,6 +18,7 @@ module.exports = router
     User.findOne({where:{
       email:req.body.email
     }}).then(user=>{
+      // console.log(user);
       bcrypt.compare(req.body.password, user.password)
       .then(result=>{
         if(result){

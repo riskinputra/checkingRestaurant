@@ -1,13 +1,16 @@
 const router = require('express').Router()
 const Restaurant = require('../models').Restaurant
+const cekLogin = require('../helper/cekLogin');
 
 module.exports = router
-  .get('/', async (req, res) => {
-    try {
-      const rows = await Restaurant.findAll()
-      res.render('restaurants/all-restaurants', {rows})
-    } catch (err) {
-      console.error(err)
+  .get('/', cekLogin, async (req, res) => {
+    if (req.session.role == 'owner') {
+      try {
+        const rows = await Restaurant.findAll()
+        res.render('restaurants/all-restaurants', {rows})
+      } catch (err) {
+        console.error(err)
+      }
     }
   })
   .get('/add', (req, res) => {

@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const Restaurant = require('../models').Restaurant
 const User = require('../models').User
+const CheckedIn = require('../models').CheckedIn
 const cekLogin = require('../helper/cekLogin');
+
 
 module.exports = router
   .get('/', cekLogin, async (req, res) => {
@@ -19,15 +21,34 @@ module.exports = router
         })
       }
 
-      const rows = await Restaurant.findAll({
+      const rowsRestaurant = await Restaurant.findAll({
         attributes: ['name', 'address', 'territory', 'latitude', 'longitude']
       })
 
-      res.render('users/users-home', {rows, lists, bool})
+      const rowsUser = await User.findById(1, {
+        attributes: ['id', 'name', 'email', 'password', 'role'],
+        include: [{
+          model: Restaurant,
+          attributes: ['id', 'name', 'address', 'territory', 'latitude', 'longitude']
+        }]
+      })
+
+      res.render('users/users-home', {rowsRestaurant, rowsUser, lists, bool})
     } catch (err) {
       console.error(err)
     }
   })
+  .get('/:id/checkin', async (req, res) => {
+    try {
+      const rowsRestaurant = await Restaurant.findAll({where: {territory: req.query.territory}})
+      res.render('users/checkin-restaurants', {rowsRestaurant})
+      // res.send(rowsRestaurant)
+    } catch (err) {
+      console.error(err)
+    }
+  })
+
+
   .get('/register', (req, res)=>{
     res.render('users/users-register')
   })

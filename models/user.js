@@ -29,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
       user.attributes.password = hash
     });
   });
-
+  
+  User.associate = models => {
+    User.belongsToMany(models.Restaurant, {through: 'CheckedIn'})
+  }
   return User;
 };
