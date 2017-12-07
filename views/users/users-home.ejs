@@ -46,19 +46,18 @@
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <!-- Title -->
-          <span class="mdl-layout-title">Your Restaurants</span>
+          <span class="mdl-layout-title">Your Timeline</span>
         </div>
       </header>
       <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Title</span>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="#">
-            <i class="material-icons">history</i>
-            &nbsp;&nbsp;CHECKIN HISTORY
+          <a class="mdl-navigation__link" href="/users/most-visited">
+            <i class="material-icons">timeline</i>
+            &nbsp;&nbsp;Timeline
           </a>
-          <a class="mdl-navigation__link" href="#">
+          <a class="mdl-navigation__link" href="/users/most-visited">
             <i class="material-icons">favorite</i>
-            &nbsp;&nbsp;MOST VISITED PLACE
+            &nbsp;&nbsp;Places Rank
           </a>
         </nav>
       </div>
@@ -72,24 +71,29 @@
             </div>
           </div>
           <div class="mdl-grid">
-            <% if (rowsUser.Restaurants !== undefined) { %>
-              <% rowsUser.Restaurants.forEach(row => { %>
-                <a href="/restaurants/detail/<%= row.id %>" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col-phone mdl-cell--4-col-desktop">
+            <% if (checkedIn.length > 0) { %>
+              <% checkedIn.forEach(row => { %>
+                <a href="/restaurants/detail/<%= row.RestaurantId %>" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col-phone mdl-cell--4-col-desktop">
                   <div class="mdl-card__title">
                     <div>
-                      <h4 class="mdl-card__title-text"><%= row.name %></h4>
-                      <p><%= row.territory %></p>
+                      <h4 class="mdl-card__title-text"><%= row.Restaurant.name %></h4>
+                      <p><%= row.Restaurant.territory %></p>
                     </div>
                   </div>
                   <div class="mdl-card__supporting-text mdl-card--expand">
-                    <p><%= row.CheckedIn.details %></p>
+                    <p><%= row.details %></p>
                   </div>
                 </a>
               <% }) %>
+            <% } else { %>
+              <p>Why don't you press that below right big button :)</p>
             <% } %>
           </div>
         </div>
-        <a class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" href="users/<%= rowsUser.id %>/checkin?territory=<%= rowsUser.Restaurants[0].territory %>">
+        <!-- <a id="checkIn" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" href="">
+          <i class="material-icons">place</i>
+        </a> -->
+        <a class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" href="users/<%= rowsUser.id %>/checkin?territory=<%= checkedIn[0].Restaurant.territory %>">
           <i class="material-icons">place</i>
         </a>
       </main>
@@ -143,6 +147,7 @@
         // current Location
         var geocoder = new google.maps.Geocoder;
         let currentInfoWindow = new google.maps.InfoWindow;
+        const link = document.getElementById('checkIn')
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -155,9 +160,13 @@
             geocoder.geocode({'location':pos}, function(results) {
               results.forEach(dataResult => {
                 dataResult.address_components.forEach(dataRe => {
-                  if (dataRe.types[0] == 'administrative_area_level_3' && <%= bool %>) {
+                  if (dataRe.types[0] === 'administrative_area_level_3' && <%= bool %>) {
                     window.location.replace(`http://localhost:3000/users?territory=${dataRe.long_name}`)
                   }
+
+                  /* if (dataRe.types[0] === 'administrative_area_level_3') {
+                    link.href = `users/<%= rowsUser.id %>/checkin?territory=${dataRe.short_name}`
+                  } */
                 })
               })
             })
