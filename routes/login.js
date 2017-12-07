@@ -23,7 +23,7 @@ module.exports = router
         if(result){
           req.session.loggedIn = true
           req.session.role = user.role
-          req.session.id = user.id
+          req.session.user_id = user.id
           res.redirect('/users')
           // res.send(result)
         }else{

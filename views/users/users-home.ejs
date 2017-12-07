@@ -25,8 +25,12 @@
       <input type="text" name="territory" id="territory">
       <input type="submit" name="" value="Submit">
     </form>
-    <script>
 
+    <% if (lists.length !== 0) { %>
+      <%= lists %>
+    <% } %>
+
+    <script>
       function initMap() {
         // Option
         let options = {
@@ -74,8 +78,8 @@
 
         // current Location
         var geocoder = new google.maps.Geocoder;
-
         let currentInfoWindow = new google.maps.InfoWindow;
+        // let redirectingUser = '';
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -86,13 +90,11 @@
             };
 
             geocoder.geocode({'location':pos}, function(results) {
-              results.forEach(dataResult=>{
-                dataResult.address_components.forEach(dataRe=>{
-                  // console.log(dataRe);
-                  if (dataRe.types[0] == 'administrative_area_level_3') {
-                    window.location.replace( http://localhost:3000/users?territory=dataRe.long_name)
+              results.forEach(dataResult => {
+                dataResult.address_components.forEach(dataRe => {
+                  if (dataRe.types[0] == 'administrative_area_level_3' && <%= bool %>) {
+                    window.location.replace(`http://localhost:3000/users?territory=${dataRe.long_name}`)
                   }
-
                 })
               })
             })
@@ -108,26 +110,6 @@
           // Browser doesn't support Geolocation
           handleLocationError(false, currentInfoWindow, map.getCenter());
         }
-
-        // geocoder.geocode({'location': latlng}, function(results, status) {
-        //   if (status === 'OK') {
-        //     if (results[0]) {
-        //       map.setZoom(11);
-        //       var marker = new google.maps.Marker({
-        //         position: latlng,
-        //         map: map
-        //       });
-        //       infowindow.setContent(results[0].formatted_address);
-        //       infowindow.open(map, marker);
-        //     } else {
-        //       window.alert('No results found');
-        //     }
-        //   } else {
-        //     window.alert('Geocoder failed due to: ' + status);
-        //   }
-        // });
-
-
       }
 
       function handleLocationError(browserHasGeolocation, currentInfoWindow, pos) {
@@ -138,6 +120,9 @@
         currentInfoWindow.open(map);
       }
 
+      // if (redirectingUser !== '') {
+      //   window.location.replace(`http://localhost:3000/users?territory=${redirectingUser}`)
+      // }
     </script>
 
     <script async defer
