@@ -13,27 +13,36 @@
 
     <style>
       #map {
-        height: 100%;
-      }
+        height: 100%; }
 
       .mdl-card {
-        width: 320px;
-        height: 320px;
-        margin: 16px auto; }
+        height: 200px;
+        margin: 16px auto;
+        text-decoration: none; }
+      .mdl-grid:last-of-type .mdl-card:last-child {
+        margin-bottom: 128px; }
       .mdl-grid--no-spacing .mdl-card {
         margin-top: 0; }
       .mdl-card.map {
         width: 100% }
-      .mdl-card > .mdl-card__title {
+      .mdl-card > .mdl-card__title,
+      .mdl-card > .mdl-card__subtitle-text {
         color: #fff;
         background-color: #46B6AC; }
+      .mdl-button--fab {
+        position: fixed;
+        display: block;
+        right: 0;
+        bottom: 0;
+        margin-right: 40px;
+        margin-bottom: 40px;
+        z-index: 900; }
     </style>
   </head>
 
   <body>
     <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
-    mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <!-- Title -->
@@ -43,12 +52,14 @@
       <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Title</span>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">
+          <a class="mdl-navigation__link" href="#">
             <i class="material-icons">history</i>
-            &nbsp;&nbsp;HISTORY
+            &nbsp;&nbsp;CHECKIN HISTORY
           </a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
+          <a class="mdl-navigation__link" href="#">
+            <i class="material-icons">favorite</i>
+            &nbsp;&nbsp;MOST VISITED PLACE
+          </a>
         </nav>
       </div>
       <main class="mdl-layout__content">
@@ -61,23 +72,26 @@
             </div>
           </div>
           <div class="mdl-grid">
-            <% if (lists !== undefined) { %>
-              <% lists.forEach(list => { %>
-                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col-phone mdl-cell--4-col-desktop">
+            <% if (rowsUser.Restaurants !== undefined) { %>
+              <% rowsUser.Restaurants.forEach(row => { %>
+                <a href="/restaurants/detail/<%= row.id %>" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col-phone mdl-cell--4-col-desktop">
                   <div class="mdl-card__title">
-                    <h4><%= list.name %></h4>
+                    <div>
+                      <h4 class="mdl-card__title-text"><%= row.name %></h4>
+                      <p><%= row.territory %></p>
+                    </div>
                   </div>
                   <div class="mdl-card__supporting-text mdl-card--expand">
-                    <p><%= list.address %></p>
+                    <p><%= row.CheckedIn.details %></p>
                   </div>
-                  <div class="mdl-card__actions mdl-card--border">
-                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/restaurants/detail/<%= list.id %>">DETAIL</a>
-                  </div>
-                </div>
+                </a>
               <% }) %>
             <% } %>
           </div>
         </div>
+        <a class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" href="users/<%= rowsUser.id %>/checkin?territory=<%= rowsUser.Restaurants[0].territory %>">
+          <i class="material-icons">place</i>
+        </a>
       </main>
     </div>
 
@@ -96,7 +110,7 @@
 
         // Marker
         let markers = []
-        <% rows.forEach(row => { %>
+        <% rowsRestaurant.forEach(row => { %>
             markers.push({
               coords: {
                 lat: <%= row.latitude %>,
