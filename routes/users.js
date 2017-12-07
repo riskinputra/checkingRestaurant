@@ -1,19 +1,22 @@
 const router = require('express').Router()
 const Restaurant = require('../models').Restaurant
 const User = require('../models').User
+const cekLogin = require('../helper/cekLogin');
+
 module.exports = router
-  .get('/', async (req, res) => {
+  .get('/', cekLogin, async (req, res) => {
     try {
       const rows = await Restaurant.findAll({
         attributes: ['name', 'address', 'latitude', 'longitude', 'teritory']
       })
-      res.render('users/users-home', {rows})
+      // console.log();
+      res.render('users/users-home', {rows, role:req.session.role})
     } catch (err) {
       console.error(err)
     }
   })
 
-  
+
 
   .get('/register', (req, res)=>{
     res.render('users/users-register')
@@ -27,24 +30,30 @@ module.exports = router
       role      : req.body.role
     }
     User.create(userInput).then(()=>{
+      res.redirect('/login')
+    }).catch(err=>{
+      res.send(err);
+    })
+  })
+
+  .get('/list', cekLogin, (req, res)=>{
+    console.log(req.session);
+    if (req.session.role == 'admin') {
+      User.findAll({
+        order:[['name', 'ASC']]
+      })
+      .then(dataUsers=>{
+        res.render('users/users-list', {dataUsers, role:req.session.role})
+      }).catch(err=>{
+        res.send(err);
+      })
+    }else {
       res.redirect('/users')
-    }).catch(err=>{
-      res.send(err);
-    })
+      // res.send('Not Have Permission')
+    }
   })
 
-  .get('/list', (req, res)=>{
-    User.findAll({
-      order:[['name', 'ASC']]
-    })
-    .then(dataUsers=>{
-      res.render('users/users-list', {dataUsers})
-    }).catch(err=>{
-      res.send(err);
-    })
-  })
-
-  .get('/edit/:id', (req, res)=>{
+  .get('/edit/:id', cekLogin, (req, res)=>{
     let id = req.params.id;
     User.findById(id)
     .then(dataUser=>{
@@ -55,7 +64,7 @@ module.exports = router
     })
   })
 
-  .post('/edit/:id', (req, res)=>{
+  .post('/edit/:id', cekLogin, (req, res)=>{
     let id = req.body.id
     let userInput = {
       name      : req.body.name,
@@ -72,7 +81,7 @@ module.exports = router
     })
   })
 
-  .get('/delete/:id', (req, res)=>{
+  .get('/delete/:id', cekLogin, (req, res)=>{
     let id = req.params.id
     User.destroy({where:{id:id}}).then(()=>{
       res.redirect('/users/list')

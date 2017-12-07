@@ -8,7 +8,6 @@ module.exports = {
       territory: 'Kebayoran Lama',
       latitude: '-6.2607187',
       longitude: '106.78161620000003',
-      teritory: 'Kebayoran Lama',
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -17,7 +16,6 @@ module.exports = {
       territory: 'Kebayoran Lama',
       latitude: '-6.261280',
       longitude: '106.782799',
-      teritory: 'Kebayoran Lama',
       createdAt: new Date(),
       updatedAt: new Date()
     }])
