@@ -7,31 +7,30 @@ module.exports = router
   .get('/', cekLogin, async (req, res) => {
     try {
       let bool = true
-      const lists = []
+      let lists
 
       if (req.query.territory) {
         bool = false
-        lists.push(Restaurant.findAll({
+        lists = await Restaurant.findAll({
           where: {
             territory: req.query.territory
-          }
-        }))
+          },
+          attributes: ['id', 'name', 'address']
+        })
       }
 
       const rows = await Restaurant.findAll({
         attributes: ['name', 'address', 'territory', 'latitude', 'longitude']
       })
 
-      res.render('users/users-home', {rows, lists: JSON.stringify(lists, null, 2), bool})
+      res.render('users/users-home', {rows, lists, bool})
     } catch (err) {
       console.error(err)
     }
   })
-
   .get('/register', (req, res)=>{
     res.render('users/users-register')
   })
-
   .post('/register', (req, res)=>{
     let userInput = {
       name      : req.body.name,
@@ -65,8 +64,7 @@ module.exports = router
   .get('/edit/:id', cekLogin, (req, res)=>{
     let id = req.params.id;
     User.findById(id)
-    .then(dataUser=>{
-      // res.send(dataUser)
+    .then(dataUser => {
       res.render('users/users-edit', {dataUser})
     }).catch(err=>{
       res.send(err)
@@ -98,15 +96,3 @@ module.exports = router
       res.send(err)
     })
   })
-
-
-
-
-
-
-
-
-
-
-
-//
