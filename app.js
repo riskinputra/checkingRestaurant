@@ -1,4 +1,5 @@
-const app = require('express')()
+const express = require('express');
+const app = express()
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const index = require('./routes/index')
@@ -11,6 +12,10 @@ app.use(session({secret: "Shh, its a secret!"}));
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+
+// app.use(express.static('public'))
+app.use('/', express.static('public'))
+// app.use('/assets', express.static(path.join(__dirname, 'public')))
 
 app.set('views', './views')
 app.set('view engine', 'ejs')
