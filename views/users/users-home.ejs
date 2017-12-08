@@ -165,7 +165,7 @@
               results.forEach(dataResult => {
                 dataResult.address_components.forEach(dataRe => {
                   if (dataRe.types[0] === 'administrative_area_level_3' && <%= bool %>) {
-                    window.location.replace(`http://localhost:3000/users?territory=${dataRe.long_name}`)
+                    window.location.replace(`/users?territory=${dataRe.long_name}`)
                   }
 
                   if (dataRe.types[0] === 'administrative_area_level_3') {
