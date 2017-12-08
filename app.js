@@ -8,7 +8,11 @@ const login = require('./routes/login')
 const logout = require('./routes/logout')
 const restaurants = require('./routes/restaurants')
 
-app.use(session({secret: "Shh, its a secret!"}));
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
