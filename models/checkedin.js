@@ -6,5 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     details: DataTypes.STRING
   });
 
+  CheckedIn.associate = models => {
+    CheckedIn.belongsTo(models.User)
+    CheckedIn.belongsTo(models.Restaurant)
+  }
+
   return CheckedIn;
 };
