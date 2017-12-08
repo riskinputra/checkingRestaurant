@@ -7,5 +7,10 @@ module.exports = (sequelize, DataTypes) => {
     latitude: DataTypes.STRING,
     longitude: DataTypes.STRING,
   });
+
+  Restaurant.associate = models => {
+    Restaurant.belongsToMany(models.User, {through: 'CheckedIn'})
+  }
+
   return Restaurant;
 };
