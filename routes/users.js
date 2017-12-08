@@ -4,7 +4,6 @@ const User = require('../models').User
 const CheckedIn = require('../models').CheckedIn
 const cekLogin = require('../helper/cekLogin');
 
-
 module.exports = router
   .get('/', cekLogin, async (req, res) => {
     try {
@@ -40,7 +39,6 @@ module.exports = router
       })
 
       res.render('users/users-home', {rowsRestaurant, rowsUser, checkedIn, lists, bool})
-      console.log(rowsUser)
     } catch (err) {
       console.error(err)
     }
@@ -93,7 +91,6 @@ module.exports = router
 
       const results = []
       for (let i = 0; i < most.length; i++) {
-        console.log(i)
         results.push(await Restaurant.findById(i+1))
       }
 

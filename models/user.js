@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     role: DataTypes.STRING
   });
-  //bcrypt
+
   User.beforeCreate((user, options) => {
     const saltRounds = 10;
     const myPlaintextPassword = user.password;
@@ -25,11 +25,11 @@ module.exports = (sequelize, DataTypes) => {
   User.beforeBulkUpdate((user, options) => {
     const saltRounds = 10;
     const myPlaintextPassword = user.attributes.password;
-    return  bcrypt.hash(myPlaintextPassword, saltRounds).then(function(hash) {
+    return bcrypt.hash(myPlaintextPassword, saltRounds).then(function(hash) {
       user.attributes.password = hash
     });
   });
-  
+
   User.associate = models => {
     User.belongsToMany(models.Restaurant, {through: 'CheckedIn'})
   }

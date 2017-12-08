@@ -5,21 +5,21 @@ module.exports = {
     return queryInterface.bulkInsert('Users', [{
       name: 'John Doe',
       email: 'john@doe.com',
-      password: 'letmein',
+      password: '$2a$10$eHu/rnYCEzqRh9OBD4b5Su9f2iqN7MlAQAszq3RPADrjRuvIUe0zy',
       role: 'user',
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
       name: 'John Thor',
       email: 'john@thor.com',
-      password: 'letmeout',
+      password: '$2a$10$eHu/rnYCEzqRh9OBD4b5Su9f2iqN7MlAQAszq3RPADrjRuvIUe0zy',
       role: 'owner',
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
       name: 'John son',
       email: 'john@son.com',
-      password: 'letmego',
+      password: '$2a$10$eHu/rnYCEzqRh9OBD4b5Su9f2iqN7MlAQAszq3RPADrjRuvIUe0zy',
       role: 'admin',
       createdAt: new Date(),
       updatedAt: new Date()
