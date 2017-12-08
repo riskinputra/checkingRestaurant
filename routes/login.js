@@ -25,7 +25,11 @@ module.exports = router
           req.session.loggedIn = true
           req.session.role = user.role
           req.session.user_id = user.id
-          res.redirect('/users')
+          if (req.session.role === 'owner') {
+            res.redirect('/restaurants')
+          } else {
+            res.redirect('/users')
+          }
           // res.send(result)
         }else{
           res.render('login', {msg:null})
