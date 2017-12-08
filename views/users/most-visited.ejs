@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Most Visited Restaurants</title>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css" rel="stylesheet">
+
+  <style>
+    .mdl-card {
+        height: 240px;
+        margin: 16px auto; }
+    .mdl-card:last-child {
+      margin-bottom: 128px; }
+    .mdl-card > .mdl-card__title {
+      color: #fff;
+      background-color: #46B6AC; }
+  </style>
+</head>
+<body>
+  <!-- Always shows a header, even in smaller screens. -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Most Visited Restaurants</span>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="/users">
+            <i class="material-icons">timeline</i>
+            &nbsp;&nbsp;Timeline
+          </a>
+          <a class="mdl-navigation__link" href="/users/most-visited">
+            <i class="material-icons">favorite</i>
+            &nbsp;&nbsp;Places Rank
+          </a>
+          <a class="mdl-navigation__link" href="/logout">
+            <i class="material-icons">replay</i>
+            &nbsp;&nbsp;Logout
+          </a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <% results.forEach((row, index) => { %>
+            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col-phone mdl-cell--4-col-desktop">
+              <div class="mdl-card__title">
+                <h4><%= ++index %>. <%= row.name %></h4>
+              </div>
+              <div class="mdl-card__supporting-text mdl-card--expand">
+                <p><%= row.address %></p>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </main>
+    </div>
+
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</body>
+</html>

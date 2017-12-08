@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Role</th>
+          <th>Option</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% let no = 0
+          dataUsers.forEach(dataUser=>{%>
+          <tr>
+            <td><%= ++no%></td>
+            <td><%= dataUser.name%></td>
+            <td><%= dataUser.email%></td>
+            <td><%= dataUser.password%></td>
+            <td><%= dataUser.role%></td>
+            <td>
+              <a href="/users/edit/<%= dataUser.id%>">Edit</a> ||
+              <a href="/users/delete/<%= dataUser.id%>" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            </td>
+          </tr>
+        <%})%>
+      </tbody>
+    </table>
+  </body>
+</html>
