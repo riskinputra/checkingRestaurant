@@ -90,12 +90,12 @@
             <% } %>
           </div>
         </div>
-        <!-- <a id="checkIn" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" href="">
-          <i class="material-icons">place</i>
-        </a> -->
-        <a class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" href="users/<%= rowsUser.id %>/checkin?territory=<%= checkedIn[0].Restaurant.territory %>">
+        <a id="checkIn" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" href="">
           <i class="material-icons">place</i>
         </a>
+        <!-- <a class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" href="users/<%= rowsUser.id %>/checkin?territory=<%= checkedIn[0].Restaurant.territory %>">
+          <i class="material-icons">place</i>
+        </a> -->
       </main>
     </div>
 
@@ -164,9 +164,9 @@
                     window.location.replace(`http://localhost:3000/users?territory=${dataRe.long_name}`)
                   }
 
-                  /* if (dataRe.types[0] === 'administrative_area_level_3') {
+                  if (dataRe.types[0] === 'administrative_area_level_3') {
                     link.href = `users/<%= rowsUser.id %>/checkin?territory=${dataRe.short_name}`
-                  } */
+                  }
                 })
               })
             })

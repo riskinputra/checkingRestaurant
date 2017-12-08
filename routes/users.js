@@ -2,9 +2,11 @@ const router = require('express').Router()
 const Restaurant = require('../models').Restaurant
 const User = require('../models').User
 const CheckedIn = require('../models').CheckedIn
+const cekLogin = require('../helper/cekLogin');
+
 
 module.exports = router
-  .get('/', async (req, res) => {
+  .get('/', cekLogin, async (req, res) => {
     try {
       let bool = true
       let lists
@@ -23,17 +25,22 @@ module.exports = router
         attributes: ['name', 'address', 'territory', 'latitude', 'longitude']
       })
 
-      const rowsUser = await User.findById(1, {
-        attributes: ['id', 'name', 'email', 'password', 'role']
+      const rowsUser = await User.findById(req.session.user_id, {
+        attributes: ['id', 'name', 'email', 'password', 'role'],
+        include: [{
+          model: Restaurant,
+          attributes: ['id', 'name', 'address', 'territory', 'latitude', 'longitude']
+        }]
       })
 
       const checkedIn = await CheckedIn.findAll({
-        where: {UserId: 1},
+        where: {UserId: req.session.user_id},
         include: Restaurant,
         order: [['createdAt', 'DESC']]
       })
 
       res.render('users/users-home', {rowsRestaurant, rowsUser, checkedIn, lists, bool})
+      console.log(rowsUser)
     } catch (err) {
       console.error(err)
     }
@@ -84,7 +91,6 @@ module.exports = router
         if (current === most[i]) sorted.push(i+1)
       }
 
-
       const results = []
       for (let i = 0; i < most.length; i++) {
         console.log(i)
@@ -96,8 +102,6 @@ module.exports = router
       console.error(err)
     }
   })
-
-
   .get('/register', (req, res)=>{
     res.render('users/users-register')
   })
@@ -109,22 +113,27 @@ module.exports = router
       role      : req.body.role
     }
     User.create(userInput).then(()=>{
+      res.redirect('/login')
+    }).catch(err=>{
+      res.send(err);
+    })
+  })
+  .get('/list', cekLogin, (req, res)=>{
+    if (req.session.role == 'admin') {
+      User.findAll({
+        order:[['name', 'ASC']]
+      })
+      .then(dataUsers=>{
+        res.render('users/users-list', {dataUsers, role:req.session.role})
+      }).catch(err=>{
+        res.send(err);
+      })
+    }else {
       res.redirect('/users')
-    }).catch(err=>{
-      res.send(err);
-    })
+      // res.send('Not Have Permission')
+    }
   })
-  .get('/list', (req, res)=>{
-    User.findAll({
-      order:[['name', 'ASC']]
-    })
-    .then(dataUsers=>{
-      res.render('users/users-list', {dataUsers})
-    }).catch(err=>{
-      res.send(err);
-    })
-  })
-  .get('/edit/:id', (req, res)=>{
+  .get('/edit/:id', cekLogin, (req, res)=>{
     let id = req.params.id;
     User.findById(id)
     .then(dataUser => {
@@ -133,7 +142,7 @@ module.exports = router
       res.send(err)
     })
   })
-  .post('/edit/:id', (req, res)=>{
+  .post('/edit/:id', cekLogin, (req, res)=>{
     let id = req.body.id
     let userInput = {
       name      : req.body.name,
@@ -149,7 +158,7 @@ module.exports = router
       res.send(err);
     })
   })
-  .get('/delete/:id', (req, res)=>{
+  .get('/delete/:id', cekLogin, (req, res)=>{
     let id = req.params.id
     User.destroy({where:{id:id}}).then(()=>{
       res.redirect('/users/list')
