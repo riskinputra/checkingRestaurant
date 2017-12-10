@@ -127,7 +127,6 @@ module.exports = router
       })
     }else {
       res.redirect('/users')
-      // res.send('Not Have Permission')
     }
   })
   .get('/edit/:id', cekLogin, (req, res)=>{
